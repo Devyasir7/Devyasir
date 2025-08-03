@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Colty's Innovative Portfolio | Web Developer Extraordinaire</title>
+    <meta
+      name="description"
+      content="Explore the cutting-edge portfolio of Colty, a visionary web developer crafting immersive digital experiences that push the boundaries of web technology."
+    />
+    <meta
+      name="keywords"
+      content="web developer, portfolio, HTML5, CSS3, JavaScript, React, Node.js, Three.js, WebGL, interactive design"
+    />
+    <meta name="author" content="Colty" />
+    <meta name="robots" content="index, follow" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary-color: #4a90e2;
+        --secondary-color: #50c878;
+        --accent-color: #ff6b6b;
+        --text-color: #ffffff;
+        --bg-color: rgba(0, 0, 0, 0.8);
+        --card-bg: rgba(255, 255, 255, 0.1);
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Poppins", sans-serif;
+        color: var(--text-color);
+        overflow-x: hidden;
+        background-color: #000;
+      }
+      #bg-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+      }
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 20px;
+        position: relative;
+        z-index: 1;
+      }
+      header {
+        padding: 1rem 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        transition: background-color 0.3s ease;
+      }
+      header.scrolled {
+        background-color: var(--bg-color);
+      }
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 0;
+      }
+      .logo {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        text-decoration: none;
+      }
+      nav ul {
+        display: flex;
+        list-style-type: none;
+      }
+      nav ul li {
+        margin-left: 2rem;
+      }
+      nav ul li a {
+        color: var(--text-color);
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s;
+        position: relative;
+      }
+      nav ul li a::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: var(--secondary-color);
+        transform: scaleX(0);
+        transition: transform 0.3s;
+      }
+      nav ul li a:hover::after {
+        transform: scaleX(1);
+      }
+      .hero {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+      .hero-text {
+        position: relative;
+        z-index: 2;
+      }
+      .hero-text h1 {
+        font-size: 4.5rem;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        animation: fadeInUp 1s ease-out;
+      }
+      .hero-text p {
+        font-size: 1.8rem;
+        margin-bottom: 2rem;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        animation: fadeInUp 1s ease-out 0.3s;
+        animation-fill-mode: both;
+      }
+      .cta-button {
+        display: inline-block;
+        background-color: var(--secondary-color);
+        color: #ffffff;
+        padding: 1rem 2.5rem;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        animation: fadeInUp 1s ease-out 0.6s;
+        animation-fill-mode: both;
+      }
+      .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        background-color: var(--primary-color);
+      }
+      .section {
+        padding: 8rem 0;
+        position: relative;
+      }
+      .section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: var(--bg-color);
+        z-index: -1;
+      }
+      .section-title {
+        font-size: 3.5rem;
+        margin-bottom: 4rem;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        position: relative;
+        display: inline-block;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .section-title::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background-color: var(--accent-color);
+        transform: scaleX(0);
+        transition: transform 0.3s;
+      }
+      .section-title:hover::after {
+        transform: scaleX(1);
+      }
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 3rem;
+      }
+      .project-card {
+        background-color: var(--card-bg);
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s, box-shadow 0.3s;
+        backdrop-filter: blur(10px);
+        position: relative;
+      }
+      .project-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      }
+      .project-image {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        transition: transform 0.3s;
+      }
+      .project-card:hover .project-image {
+        transform: scale(1.1);
+      }
+      .project-info {
+        padding: 2rem;
+      }
+      .project-title {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+        color: var(--secondary-color);
+      }
+      .project-description {
+        margin-bottom: 1.5rem;
+      }
+      .project-link {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        background-color: var(--primary-color);
+        color: #ffffff;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+      }
+      .project-link:hover {
+        background-color: var(--secondary-color);
+      }
+      .skills-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        justify-content: center;
+      }
+      .skill-item {
+        background-color: var(--primary-color);
+        color: #ffffff;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+        cursor: pointer;
+      }
+      .skill-item:hover {
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        background-color: var(--secondary-color);
+      }
+      .contact-form {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: var(--card-bg);
+        padding: 3rem;
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+      }
+      .form-group {
+        margin-bottom: 2rem;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+      }
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 1rem;
+        border: none;
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: var(--text-color);
+        font-family: inherit;
+        transition: background-color 0.3s, box-shadow 0.3s;
+      }
+      .form-group input:focus,
+      .form-group textarea:focus {
+        background-color: rgba(255, 255, 255, 0.2);
+        box-shadow: 0 0 10px rgba(74, 144, 226, 0.5);
+        outline: none;
+      }
+      .submit-button {
+        background-color: var(--secondary-color);
+        color: #ffffff;
+        padding: 1rem 2.5rem;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background-color 0.3s, transform 0.3s;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+      .submit-button:hover {
+        background-color: var(--primary-color);
+        transform: translateY(-3px);
+      }
+      footer {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        text-align: center;
+        padding: 2rem 0;
+        position: relative;
+      }
+      .social-links {
+        margin-top: 1rem;
+      }
+      .social-links a {
+        color: var(--text-color);
+        font-size: 1.5rem;
+        margin: 0 0.5rem;
+        transition: color 0.3s;
+      }
+      .social-links a:hover {
+        color: var(--secondary-color);
+      }
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @media (max-width: 768px) {
+        .hero-text h1 {
+          font-size: 3rem;
+        }
+        .hero-text p {
+          font-size: 1.3rem;
+        }
+        .section-title {
+          font-size: 2.5rem;
+        }
+        .project-card {
+          margin-bottom: 2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="bg-canvas"></canvas>
+
+    <header>
+      <div class="container">
+        <nav>
+          <a href="#" class="logo">Colty</a>
+          <section id="skills" class="section">
+            <div class="container">
+              <h2 class="section-title">My Skills</h2>
+              <div class="skills-list">
+                <!-- Add your skills here -->
+                <div class="skill-item" style="animation-delay: 0.1s">
+                  HTML5
+                </div>
+                <div class="skill-item" style="animation-delay: 0.2s">CSS3</div>
+                <div class="skill-item" style="animation-delay: 0.3s">
+                  JavaScript
+                </div>
+                <div class="skill-item" style="animation-delay: 0.4s">
+                  React
+                </div>
+                <div class="skill-item" style="animation-delay: 0.5s">
+                  Node.js
+                </div>
+                <!-- Add more skills as needed -->
+              </div>
+            </div>
+          </section>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container">
+          <div class="hero-text">
+            <h1>Innovative Web Developer</h1>
+            <p>Crafting digital experiences that inspire and engage</p>
+            <a href="#contact" class="cta-button">Get in Touch</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" class="section">
+        <div class="container">
+          <h2 class="section-title">About Me</h2>
+          <p>
+            I'm Colty, a passionate web developer dedicated to creating elegant,
+            user-centric digital solutions. With a keen eye for design and a
+            love for clean code, I transform complex challenges into intuitive,
+            beautiful experiences that make a real impact. My expertise spans
+            across front-end and back-end technologies, allowing me to build
+            comprehensive web applications that not only look great but also
+            perform exceptionally.
+          </p>
+        </div>
+      </section>
+
+      <section id="projects" class="section">
+        <div class="container">
+          <h2 class="section-title">My Projects</h2>
+          <div class="projects-grid">
+            <div class="project-card">
+              <img
+                src="https://via.placeholder.com/400x250"
+                alt="E-commerce Platform"
+                class="project-image"
+              />
+              <div class="project-info">
+                <h3 class="project-title">E-commerce Platform</h3>
+                <p class="project-description">
+                  A cutting-edge, fully responsive e-commerce platform with
+                  secure payment gateways and seamless user authentication.
+                </p>
+                <a href="#" class="project-link">View Project</a>
+              </div>
+            </div>
+            <div class="project-card">
+              <img
+                src="https://via.placeholder.com/400x250"
+                alt="Portfolio Generator"
+                class="project-image"
+              />
+              <div class="project-info">
+                <h3 class="project-title">Portfolio Generator</h3>
+                <p class="project-description">
+                  An innovative web application enabling users to effortlessly
+                  create stunning,
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+  <script>
+    import React, { useEffect, useState } from "react";
+    import styled from "styled-components";
+    import { Canvas } from "@react-three/fiber";
+    import { OrbitControls, Stars } from "@react-three/drei";
+    import { animateScroll as scroll } from "react-scroll";
+    import Header from "./components/Header";
+    import Hero from "./components/Hero";
+    import About from "./components/About";
+    import Projects from "./components/Projects";
+    import Skills from "./components/Skills";
+    import Contact from "./components/Contact";
+    import Footer from "./components/Footer";
+    import GlobalStyle from "./styles/GlobalStyle";
+
+    const StyledCanvas = styled(Canvas)`
+      position: fixed !important;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    `;
+
+    function App() {
+      const [scrolled, setScrolled] = useState(false);
+
+      useEffect(() => {
+        const handleScroll = () => {
+          const isScrolled = window.scrollY > 10;
+          if (isScrolled !== scrolled) {
+            setScrolled(isScrolled);
+          }
+        };
+
+        document.addEventListener("scroll", handleScroll);
+        return () => {
+          document.removeEventListener("scroll", handleScroll);
+        };
+      }, [scrolled]);
+
+      return (
+        <>
+          <GlobalStyle />
+          <StyledCanvas>
+            <OrbitControls enableZoom={false} />
+            <Stars />
+            <ambientLight intensity={0.5} />
+            <spotLight position={[10, 15, 10]} angle={0.3} />
+          </StyledCanvas>
+          <Header scrolled={scrolled} />
+          <Hero />
+          <About />
+          <Projects />
+          <Skills />
+          <Contact />
+          <Footer />
+        </>
+      );
+    }
+
+    export default App;
+  </script>
+</html>
